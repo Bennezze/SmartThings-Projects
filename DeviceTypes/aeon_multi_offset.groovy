@@ -112,12 +112,12 @@ def zwaveEvent(physicalgraph.zwave.commands.sensormultilevelv2.SensorMultilevelR
 			def cmdScale = cmd.scale == 1 ? "F" : "C"
 			def value = convertTemperatureIfNeeded(cmd.scaledSensorValue, cmdScale, cmd.precision)
 			if (tempOffset) {
-            	def offset = tempOffset as int
-	        	map.value = value + offset as int
-            }
-            else {
-            	map.value = value as int
-            }    
+            			def offset = tempOffset as int
+	        		map.value = value + offset as int
+            		}
+            		else {
+            			map.value = value as int
+            		}    
 			map.unit = getTemperatureScale()
 			map.name = "temperature"
 			break;
