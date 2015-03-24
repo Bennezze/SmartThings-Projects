@@ -1,4 +1,4 @@
-metadata {
+ metadata {
 	// Automatically generated. Make future change here.
 	definition (name: "Aeon Multisensor with Temp Offset", namespace: "", author: "Humac") {
 		capability "Motion Sensor"
@@ -110,14 +110,15 @@ def zwaveEvent(physicalgraph.zwave.commands.sensormultilevelv2.SensorMultilevelR
 		case 1:
 			// temperature
 			def cmdScale = cmd.scale == 1 ? "F" : "C"
-			def value = convertTemperatureIfNeeded(cmd.scaledSensorValue, cmdScale, cmd.precision)
+			def preValue = convertTemperatureIfNeeded(cmd.scaledSensorValue, cmdScale, cmd.precision)
+            def value = preValue as int
 			if (tempOffset) {
-            			def offset = tempOffset as int
-	        		map.value = value + offset as int
-            		}
-            		else {
-            			map.value = value as int
-            		}    
+            	def offset = tempOffset as int
+	        	map.value = value + offset as int
+            }
+            else {
+            	map.value = value as int
+            }    
 			map.unit = getTemperatureScale()
 			map.name = "temperature"
 			break;
@@ -192,3 +193,4 @@ def configure() {
 		zwave.configurationV1.configurationSet(parameterNumber: 111, size: 4, scaledConfigurationValue: 300).format()
 	])
 }
+
